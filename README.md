@@ -1,4 +1,4 @@
-# 🐾 OpenClaw
+# 🐾 MyAi (built on OpenClaw)
 
 A secure, locally-running AI agent powered by **Ollama** that integrates into **Microsoft Teams** as a personal assistant. Your data stays on your machine.
 
@@ -23,8 +23,8 @@ A secure, locally-running AI agent powered by **Ollama** that integrates into **
 ### 1. Install & Configure
 
 ```bash
-git clone https://github.com/your-org/openclaw.git
-cd openclaw
+git clone https://github.com/Anubhavc121/MyAi.git
+cd MyAi
 pip install -e .
 
 # Pull an Ollama model
@@ -51,7 +51,7 @@ cp .env.example .env
 # Terminal 1: Start Ollama
 ollama serve
 
-# Terminal 2: Start OpenClaw
+# Terminal 2: Start MyAi
 python -m app.main
 
 # Terminal 3: Start tunnel

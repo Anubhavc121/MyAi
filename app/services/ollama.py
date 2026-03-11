@@ -87,7 +87,21 @@ class OllamaClient:
             return r.json().get("response", "")
 
     async def generate_embeddings(self, text: str) -> list[float]:
-        """Generate embeddings using Ollama's embedding model."""
+        """Generate embeddings using Gemini or Ollama."""
+        # Use Gemini if API key is configured
+        if settings.gemini_api_key:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key={settings.gemini_api_key}"
+            payload = {
+                "model": "models/text-embedding-004",
+                "content": {"parts": [{"text": text}]}
+            }
+            async with httpx.AsyncClient(timeout=30) as client:
+                r = await client.post(url, json=payload)
+                r.raise_for_status()
+                data = r.json()
+                return data.get("embedding", {}).get("values", [])
+
+        # Fallback to Ollama
         async with httpx.AsyncClient(timeout=30) as client:
             r = await client.post(
                 f"{self.base_url}/api/embeddings",

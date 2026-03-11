@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     search_provider: str = "duckduckgo"
     tavily_api_key: str = ""
 
+    # Gemini
+    gemini_api_key: str = ""
+
     # Storage
     database_path: str = "data/openclaw.db"
     chroma_path: str = "data/chroma"

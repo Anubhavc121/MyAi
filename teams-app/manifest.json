@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "e3037a1a-835c-44f8-8d94-bde0e458ddc4",
+  "developer": {
+    "name": "MiAi",
+    "websiteUrl": "https://openclaw.ai",
+    "privacyUrl": "https://openclaw.ai",
+    "termsOfUseUrl": "https://openclaw.ai"
+  },
+  "name": {
+    "short": "MiAi",
+    "full": "MiAi AI Agent"
+  },
+  "description": {
+    "short": "Local AI assistant powered by Ollama",
+    "full": "MiAi is a secure, locally-running AI agent that accesses your files, searches the web, and answers questions without sending your data to the cloud."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#E94560",
+  "bots": [
+    {
+      "botId": "e3037a1a-835c-44f8-8d94-bde0e458ddc4",
+      "scopes": [
+        "personal"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "validDomains": []
+}

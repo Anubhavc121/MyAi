@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  openclaw:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    # Ollama runs on the host — use host networking or specify the host IP
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    restart: unless-stopped
+
+  # Optional: ngrok for Teams webhook tunneling
+  # Uncomment and set your ngrok auth token
+  # ngrok:
+  #   image: ngrok/ngrok:latest
+  #   command: http openclaw:8000
+  #   environment:
+  #     - NGROK_AUTHTOKEN=your-ngrok-auth-token
+  #   ports:
+  #     - "4040:4040"
+  #   depends_on:
+  #     - openclaw

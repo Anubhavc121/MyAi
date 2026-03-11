@@ -1,0 +1,21 @@
+# OpenClaw Agent Configuration
+
+agent:
+  max_tool_rounds: 5
+  context_window_messages: 20
+  temperature: 0.7
+  max_tokens: 2048
+
+ollama:
+  default_model: llama3.1:8b
+  embedding_model: nomic-embed-text
+  timeout_seconds: 120
+
+rag:
+  chunk_size: 512
+  chunk_overlap: 64
+  top_k_results: 5
+
+search:
+  default_provider: duckduckgo
+  max_results: 5

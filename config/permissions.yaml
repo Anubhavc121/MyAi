@@ -1,0 +1,7 @@
+# OpenClaw File Access Permissions
+# List directories the agent is allowed to access.
+# The agent cannot read/write outside these paths.
+# Users can also grant access at runtime with /allow <path>
+
+allowed_directories:
+  - C:\Users\anubh

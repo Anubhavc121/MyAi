@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     gemini_api_key: str = ""
 
     # Storage
-    database_path: str = "data/openclaw.db"
+    database_path: str = "data/miai.db"
     chroma_path: str = "data/chroma"
 
     @property

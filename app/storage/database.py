@@ -11,7 +11,7 @@ from app.storage.models import Conversation, Message, Role
 
 
 class Database:
-    def __init__(self, db_path: str = "data/openclaw.db"):
+    def __init__(self, db_path: str = "data/miai.db"):
         self.db_path = db_path
         Path(db_path).parent.mkdir(parents=True, exist_ok=True)
 

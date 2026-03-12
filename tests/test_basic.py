@@ -1,4 +1,4 @@
-"""Basic smoke tests for OpenClaw."""
+"""Basic smoke tests for MyAi."""
 import pytest
 
 

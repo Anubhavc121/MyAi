@@ -5,9 +5,9 @@
   "id": "e3037a1a-835c-44f8-8d94-bde0e458ddc4",
   "developer": {
     "name": "MiAi",
-    "websiteUrl": "https://openclaw.ai",
-    "privacyUrl": "https://openclaw.ai",
-    "termsOfUseUrl": "https://openclaw.ai"
+    "websiteUrl": "https://miai.ai",
+    "privacyUrl": "https://miai.ai",
+    "termsOfUseUrl": "https://miai.ai"
   },
   "name": {
     "short": "MiAi",
@@ -26,8 +26,12 @@
     {
       "botId": "e3037a1a-835c-44f8-8d94-bde0e458ddc4",
       "scopes": [
-        "personal"
+        "personal",
+        "groupchat",
+        "team"
       ],
+      "supportsCalling": true,
+      "supportsVideo": false,
       "supportsFiles": false,
       "isNotificationOnly": false
     }

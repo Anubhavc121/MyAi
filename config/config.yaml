@@ -1,4 +1,4 @@
-# OpenClaw Agent Configuration
+# MyAi Agent Configuration
 
 agent:
   max_tool_rounds: 5

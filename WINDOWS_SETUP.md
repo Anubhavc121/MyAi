@@ -1,6 +1,6 @@
-# OpenClaw — Windows Setup Guide
+# MyAi — Windows Setup Guide
 
-Follow these steps to get OpenClaw running on your Windows laptop.
+Follow these steps to get MyAi running on your Windows laptop.
 
 ---
 
@@ -41,7 +41,7 @@ ngrok config add-authtoken YOUR_AUTH_TOKEN
 Open PowerShell and run:
 
 ```powershell
-cd C:\path\to\openclaw
+cd C:\path\to\miai
 
 # Create virtual environment
 python -m venv .venv
@@ -79,16 +79,16 @@ These are the **same credentials** from your Azure App Registration.
 ollama serve
 ```
 
-### Window 2 — OpenClaw
+### Window 2 — MyAi
 ```powershell
-cd C:\path\to\openclaw
+cd C:\path\to\miai
 .venv\Scripts\activate
 python -m app.main
 ```
 
 You should see:
 ```
-🐾  OpenClaw Agent Started
+🐾  MyAi Agent Started
    Server:   http://0.0.0.0:8000
 ```
 
@@ -116,7 +116,7 @@ Copy the **https** URL (e.g., `https://xxxx.ngrok-free.app`)
 ## Step 6: Test in Teams
 
 1. Open Microsoft Teams
-2. Find **OpenClaw** in your chats
+2. Find **MyAi** in your chats
 3. Send: `Hello!`
 4. Try: `/help` and `/status`
 5. Grant file access: `/allow C:\path\to\your\files`

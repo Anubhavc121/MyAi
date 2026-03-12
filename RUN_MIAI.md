@@ -34,14 +34,14 @@ ollama serve
 
 ### Window 2 — MiAi Bot Server
 ```powershell
-cd C:\Users\anubh\Downloads\openclaw-transfer
+cd C:\Users\anubh\Downloads\miai-transfer
 .venv\Scripts\activate
 python -m app.main
 ```
 
 **You should see:**
 ```
-🐾  OpenClaw Agent Started
+🐾  MyAi Agent Started
    Model:    llama3.1:8b
    Server:   http://0.0.0.0:8000
    Webhook:  http://0.0.0.0:8000/api/messages

@@ -120,7 +120,7 @@ class IntentRouter:
                 return p
 
         folder_words = ["downloads", "documents", "desktop", "projects", "project",
-                        "openclaw", "home", "code", "src", "repo"]
+                        "miai", "home", "code", "src", "repo"]
         for word in folder_words:
             if word in text:
                 for d in allowed:
@@ -267,7 +267,7 @@ class AgentCore:
 
         # Have LLM present the result nicely
         messages = [
-            {"role": "system", "content": "You are OpenClaw. Present the tool result to the user clearly and concisely. Don't add unnecessary commentary."},
+            {"role": "system", "content": "You are MyAi. Present the tool result to the user clearly and concisely. Don't add unnecessary commentary."},
             {"role": "user", "content": f"User asked: \"{original_text}\"\n\nTool `{tool_name}` returned:\n{result}\n\nPresent this helpfully."},
         ]
 

@@ -1,20 +1,20 @@
 ```
-Title: OpenClaw Overview
+Title: MyAi Overview
 
-OpenClaw is a software solution designed to automate and optimize the process of web scraping. It allows users to extract and structure data from various websites efficiently, without the need for extensive programming knowledge.
+MyAi is a software solution designed to automate and optimize the process of web scraping. It allows users to extract and structure data from various websites efficiently, without the need for extensive programming knowledge.
 
 Key Features:
 
-1. User-Friendly Interface: OpenClaw offers an intuitive and easy-to-navigate interface, making it accessible to both beginners and advanced users.
+1. User-Friendly Interface: MyAi offers an intuitive and easy-to-navigate interface, making it accessible to both beginners and advanced users.
 
-2. Data Extraction: OpenClaw can extract structured data from web pages, such as product details, prices, reviews, and more.
+2. Data Extraction: MyAi can extract structured data from web pages, such as product details, prices, reviews, and more.
 
 3. Scheduling and Automation: Users can schedule tasks to run at specific times, ensuring data is always up-to-date.
 
-4. Data Storage: OpenClaw provides options for storing extracted data in various formats, including CSV, Excel, and databases.
+4. Data Storage: MyAi provides options for storing extracted data in various formats, including CSV, Excel, and databases.
 
-5. Error Handling: OpenClaw includes robust error handling features to manage and handle potential issues during the scraping process.
+5. Error Handling: MyAi includes robust error handling features to manage and handle potential issues during the scraping process.
 
-Location: The file will be saved in the specified directory: /Users/anubhav/Downloads/openclaw
+Location: The file will be saved in the specified directory: /Users/anubhav/Downloads/miai
 
 File Name: test_output.txt

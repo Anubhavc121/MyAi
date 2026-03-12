@@ -14,8 +14,8 @@ from app.services.web_search import WebSearchService
 logger = logging.getLogger(__name__)
 
 
-class OpenClawBot(ActivityHandler):
-    """Microsoft Teams bot that routes messages to the OpenClaw agent."""
+class MyAiBot(ActivityHandler):
+    """Microsoft Teams bot that routes messages to the MyAi agent."""
 
     def __init__(
         self,
@@ -35,7 +35,7 @@ class OpenClawBot(ActivityHandler):
 
         # Auth check
         if not auth_service.is_user_allowed(user_id):
-            await turn_context.send_activity("⛔ You are not authorized to use OpenClaw.")
+            await turn_context.send_activity("⛔ You are not authorized to use MyAi.")
             return
 
         # Check for slash commands
@@ -72,7 +72,7 @@ class OpenClawBot(ActivityHandler):
 
         if command == "/help":
             return (
-                "🐾 **OpenClaw Commands**\n\n"
+                "🐾 **MyAi Commands**\n\n"
                 "• `/model <name>` — Switch Ollama model\n"
                 "• `/status` — Show current config and health\n"
                 "• `/allow <path>` — Grant file access to a directory\n"
@@ -97,7 +97,7 @@ class OpenClawBot(ActivityHandler):
             dirs = permissions_config.allowed_dirs or ["None"]
 
             return (
-                f"🐾 **OpenClaw Status**\n\n"
+                f"🐾 **MyAi Status**\n\n"
                 f"**Ollama:** {'🟢 Connected' if ollama_ok else '🔴 Not reachable'}\n"
                 f"**Model:** `{self.agent.ollama.model}`\n"
                 f"**Available models:** {', '.join(models) or 'N/A'}\n"
@@ -163,7 +163,7 @@ class OpenClawBot(ActivityHandler):
         for member in members_added:
             if member.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity(
-                    "🐾 **Welcome to OpenClaw!**\n\n"
+                    "🐾 **Welcome to MyAi!**\n\n"
                     "I'm your local AI assistant, powered by Ollama. "
                     "I run entirely on your machine — your data stays private.\n\n"
                     "Type `/help` to see what I can do, or just start chatting!"

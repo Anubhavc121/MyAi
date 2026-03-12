@@ -1,4 +1,4 @@
-# OpenClaw Setup Guide — Step by Step
+# MyAi Setup Guide — Step by Step
 
 Follow these steps in order. The whole process takes ~30-45 minutes.
 
@@ -57,12 +57,12 @@ ngrok config add-authtoken YOUR_AUTH_TOKEN
 
 ---
 
-## STEP 2: Set Up the OpenClaw Project
+## STEP 2: Set Up the MyAi Project
 
 ```bash
 # Unzip the project (if downloaded as zip)
 # cd into the project
-cd openclaw
+cd miai
 
 # Create virtual environment
 python -m venv .venv
@@ -95,7 +95,7 @@ We'll fill in the Azure credentials in the next step.
 2. Search for **"App registrations"** in the top search bar
 3. Click **"+ New registration"**
 4. Fill in:
-   - **Name:** `OpenClaw Bot`
+   - **Name:** `MyAi Bot`
    - **Supported account types:** Select **"Accounts in this organizational directory only (Single tenant)"**
    - **Redirect URI:** Leave blank
 5. Click **Register**
@@ -106,7 +106,7 @@ We'll fill in the Azure credentials in the next step.
 
 1. In the left sidebar of your app registration, click **"Certificates & secrets"**
 2. Click **"+ New client secret"**
-3. Description: `OpenClaw Bot Secret`
+3. Description: `MyAi Bot Secret`
 4. Expiry: **24 months**
 5. Click **Add**
 6. **⚠️ IMMEDIATELY copy the "Value" column** (NOT the "Secret ID") — this is your `MICROSOFT_APP_PASSWORD`. You can only see it once!
@@ -118,9 +118,9 @@ We'll fill in the Azure credentials in the next step.
 3. Search for **"Azure Bot"**
 4. Click **Create**
 5. Fill in:
-   - **Bot handle:** `openclaw-bot` (must be unique)
+   - **Bot handle:** `miai-bot` (must be unique)
    - **Subscription:** Your subscription
-   - **Resource group:** Create new → `openclaw-rg`
+   - **Resource group:** Create new → `miai-rg`
    - **Data residency:** Global
    - **Pricing tier:** **F0 (Free)** — 10K messages/month
    - **Type of App:** **Single Tenant**
@@ -169,9 +169,9 @@ ollama serve
 ```
 (Skip if already running)
 
-### Terminal 2: OpenClaw Agent
+### Terminal 2: MyAi Agent
 ```bash
-cd openclaw
+cd miai
 source .venv/bin/activate    # or .venv\Scripts\activate on Windows
 python -m app.main
 ```
@@ -179,7 +179,7 @@ python -m app.main
 You should see:
 ```
 ============================================================
-🐾  OpenClaw Agent Started
+🐾  MyAi Agent Started
    Model:    llama3.1:8b
    Server:   http://0.0.0.0:8000
    Webhook:  http://0.0.0.0:8000/api/messages
@@ -223,11 +223,11 @@ Forwarding   https://a1b2c3d4.ngrok-free.app -> http://localhost:8000
 
 ### 7b. Package the App
 
-Zip the contents of the `teams-app/` folder into a file called `openclaw-teams-app.zip`:
+Zip the contents of the `teams-app/` folder into a file called `miai-teams-app.zip`:
 
 ```bash
 cd teams-app
-zip openclaw-teams-app.zip manifest.json color.png outline.png
+zip miai-teams-app.zip manifest.json color.png outline.png
 ```
 
 The zip must contain these 3 files at the **root level** (not inside a subfolder).
@@ -249,15 +249,15 @@ If you're NOT an admin, ask your admin to enable sideloading for your account.
 2. Click **"Apps"** in the left sidebar
 3. Click **"Manage your apps"** (bottom-left)
 4. Click **"Upload an app"** → **"Upload a custom app"**
-5. Select your `openclaw-teams-app.zip` file
+5. Select your `miai-teams-app.zip` file
 6. Click **"Add"**
-7. OpenClaw should now appear as a chat contact!
+7. MyAi should now appear as a chat contact!
 
 ---
 
 ## STEP 8: Test It!
 
-1. In Teams, find **OpenClaw** in your chat list
+1. In Teams, find **MyAi** in your chat list
 2. Send: `Hello!`
 3. You should see a response from your local Ollama model
 4. Try: `/help` to see all commands
@@ -269,7 +269,7 @@ If you're NOT an admin, ask your admin to enable sideloading for your account.
 ## Troubleshooting
 
 ### Bot doesn't respond
-- Check Terminal 2 (OpenClaw) for error logs
+- Check Terminal 2 (MyAi) for error logs
 - Check Terminal 3 (ngrok) — the webhook URL must be active
 - Verify the messaging endpoint in Azure matches your ngrok URL exactly
 - Make sure the App ID and Secret in `.env` match Azure
@@ -277,7 +277,7 @@ If you're NOT an admin, ask your admin to enable sideloading for your account.
 ### "Unauthorized" errors
 - Double-check the client secret value (not the secret ID)
 - Make sure you're using Single Tenant and the tenant ID is correct
-- Restart the OpenClaw server after changing `.env`
+- Restart the MyAi server after changing `.env`
 
 ### Ollama not reachable
 - Make sure `ollama serve` is running in Terminal 1

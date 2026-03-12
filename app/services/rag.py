@@ -28,7 +28,7 @@ def _get_collection():
             settings=ChromaSettings(anonymized_telemetry=False),
         )
         _collection = _chroma_client.get_or_create_collection(
-            name="openclaw_docs",
+            name="miai_docs",
             metadata={"hnsw:space": "cosine"},
         )
     return _collection

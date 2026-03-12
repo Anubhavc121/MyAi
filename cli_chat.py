@@ -1,5 +1,5 @@
 """
-OpenClaw CLI Chat — Test the agent without Teams.
+MyAi CLI Chat — Test the agent without Teams.
 
 Usage:
     python cli_chat.py
@@ -37,7 +37,7 @@ async def handle_command(text: str, agent: AgentCore, search_service: WebSearchS
 
     if command == "/help":
         return (
-            "\n🐾 OpenClaw Commands\n"
+            "\n🐾 MyAi Commands\n"
             "─────────────────────────────\n"
             "  /model <n>     Switch Ollama model\n"
             "  /status        Show current config & health\n"
@@ -64,7 +64,7 @@ async def handle_command(text: str, agent: AgentCore, search_service: WebSearchS
         dirs = permissions_config.allowed_dirs or ["None"]
 
         return (
-            f"\n🐾 OpenClaw Status\n"
+            f"\n🐾 MyAi Status\n"
             f"─────────────────────────────\n"
             f"  Ollama:    {'🟢 Connected' if ollama_ok else '🔴 Not reachable'}\n"
             f"  Model:     {agent.ollama.model}\n"
@@ -149,7 +149,7 @@ async def main():
 
     print()
     print("=" * 55)
-    print("  🐾  OpenClaw CLI Chat")
+    print("  🐾  MyAi CLI Chat")
     print("=" * 55)
     print(f"  Model:   {ollama_client.model}")
     print(f"  Ollama:  {'🟢 Connected' if ollama_ok else '🔴 Not reachable — run: ollama serve'}")
@@ -181,7 +181,7 @@ async def main():
         print("  ⏳ Thinking...")
         try:
             response = await agent.process_message(USER_ID, user_input)
-            print(f"\nOpenClaw: {response}\n")
+            print(f"\nMyAi: {response}\n")
         except Exception as e:
             print(f"\n❌ Error: {e}\n")
 

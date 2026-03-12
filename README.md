@@ -1,4 +1,4 @@
-# 🐾 MyAi (built on OpenClaw)
+# 🐾 MyAi (built on MyAi)
 
 A secure, locally-running AI agent powered by **Ollama** that integrates into **Microsoft Teams** as a personal assistant. Your data stays on your machine.
 
@@ -92,7 +92,7 @@ Copy the ngrok HTTPS URL and update your Azure Bot's messaging endpoint to:
 ## Project Structure
 
 ```
-openclaw/
+miai/
 ├── app/
 │   ├── main.py              # FastAPI entry point
 │   ├── bot.py               # Teams bot handler + slash commands

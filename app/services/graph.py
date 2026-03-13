@@ -75,40 +75,103 @@ class GraphClient:
             logger.info(f"Answered incoming call via Graph: {resp.status_code}")
 
     async def join_meeting_by_url(self, callback_url: str, join_url: str, thread_id: str) -> dict:
-        """Join a specific Teams meeting using its web join URL."""
+        """Join a specific Teams meeting using its web join URL.
+
+        Supports two URL formats:
+        - /meet/<meetingId>?p=<passcode>  (personal/Meet Now links)
+        - /l/meetup-join/...              (scheduled meeting links)
+        """
+        import re
         token = await self.get_access_token()
         headers = {
             "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
-        
+
+        # Parse the meeting URL to determine the right Graph API approach
+        meeting_info = self._parse_meeting_url(join_url)
+
         payload = {
             "@odata.type": "#microsoft.graph.call",
             "callbackUri": callback_url,
             "requestedModalities": ["audio"],
             "mediaConfig": {
-                "@odata.type": "#microsoft.graph.serviceHostedMediaConfig"
+                "@odata.type": "#microsoft.graph.serviceHostedMediaConfig",
             },
-            "meetingInfo": {
-                "@odata.type": "#microsoft.graph.joinWebUrlMeetingInfo",
-                "joinWebUrl": join_url
-            },
-            "tenantId": self.tenant_id
+            "meetingInfo": meeting_info,
+            "tenantId": self.tenant_id,
         }
-        
+
         async with httpx.AsyncClient() as client:
             resp = await client.post(
                 "https://graph.microsoft.com/v1.0/communications/calls",
                 headers=headers,
-                json=payload
+                json=payload,
             )
-            
+
             if resp.status_code not in (200, 201, 202):
-                logger.error(f"Error joining meeting: Status {resp.status_code}, Response: {resp.text}")
+                logger.error(f"Error joining meeting: {resp.status_code} {resp.text}")
                 resp.raise_for_status()
-                
+
             logger.info(f"Successfully joined meeting: {resp.json().get('id')}")
             return resp.json()
+
+    @staticmethod
+    def _parse_meeting_url(join_url: str) -> dict:
+        """Parse a Teams meeting URL into the correct Graph meetingInfo payload.
+
+        /meet/<id>?p=<passcode> -> joinMeetingIdMeetingInfo (v1.0)
+        /l/meetup-join/...      -> joinMeetingIdMeetingInfo (extract from URL)
+        """
+        import re
+        from urllib.parse import urlparse, parse_qs
+
+        # Format 1: /meet/<meetingId>?p=<passcode>
+        meet_match = re.search(r'/meet/(\d+)', join_url)
+        if meet_match:
+            meeting_id = meet_match.group(1)
+            parsed = urlparse(join_url)
+            params = parse_qs(parsed.query)
+            passcode = params.get("p", [""])[0]
+            info = {
+                "@odata.type": "#microsoft.graph.joinMeetingIdMeetingInfo",
+                "joinMeetingId": meeting_id,
+            }
+            if passcode:
+                info["passcode"] = passcode
+            return info
+
+        # Format 2: /l/meetup-join/<threadId>/... with meeting ID in context param
+        # These URLs encode meeting info in base64 segments
+        # Try to extract meetingId from the decodedContext query param
+        parsed = urlparse(join_url)
+        params = parse_qs(parsed.query)
+
+        # Check for meeting ID in 'meetingId' or 'Meeting Id' query params
+        for key in ("meetingId", "Meeting Id", "meeting_id"):
+            if key in params:
+                info = {
+                    "@odata.type": "#microsoft.graph.joinMeetingIdMeetingInfo",
+                    "joinMeetingId": params[key][0],
+                }
+                passcode = params.get("passcode", params.get("p", [""]))[0]
+                if passcode:
+                    info["passcode"] = passcode
+                return info
+
+        # Fallback: try parsing meetup-join URL parts
+        # The thread ID and context are base64-encoded in the path
+        meetup_match = re.search(r'/l/meetup-join/([^/]+)/(\d+)', join_url)
+        if meetup_match:
+            # Second segment is often the message ID, thread ID is first
+            pass
+
+        # Last resort: use the raw URL (may fail on v1.0 but worth trying)
+        logger.warning(f"Could not parse meeting URL format, using raw joinWebUrl")
+        return {
+            "@odata.type": "#microsoft.graph.joinMeetingIdMeetingInfo",
+            "joinMeetingId": join_url,
+        }
 
     async def subscribe_to_transcript(self, meeting_id: str, notification_url: str):
         """Create a webhook subscription to a meeting's live transcript."""

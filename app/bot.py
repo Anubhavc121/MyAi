@@ -52,8 +52,9 @@ class MyAiBot(ActivityHandler):
         # Check for slash commands
         if text.startswith("/"):
             response = await self._handle_command(text, user_id, user_name, turn_context)
-            if response:
-                await turn_context.send_activity(response)
+            if response is not None:
+                if response:  # Don't send empty strings
+                    await turn_context.send_activity(response)
                 return
 
         # Send typing indicator
@@ -202,7 +203,7 @@ class MyAiBot(ActivityHandler):
                 )
 
             await self._auto_join_meeting(turn_context, join_url, user_id, user_name)
-            return None  # _auto_join_meeting sends its own messages
+            return ""  # _auto_join_meeting sends its own messages; return empty to prevent fallthrough
 
         return None  # Not a recognized command — pass to agent
 

@@ -29,7 +29,10 @@ class SearchProvider(ABC):
 class DuckDuckGoProvider(SearchProvider):
     async def search(self, query: str, max_results: int = 5) -> list[SearchResult]:
         try:
-            from duckduckgo_search import DDGS
+            try:
+                from ddgs import DDGS
+            except ImportError:
+                from duckduckgo_search import DDGS
 
             results = []
             with DDGS() as ddgs:

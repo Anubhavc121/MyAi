@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
   "manifestVersion": "1.16",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "id": "e3037a1a-835c-44f8-8d94-bde0e458ddc4",
   "developer": {
     "name": "MyAi",
@@ -15,7 +15,7 @@
   },
   "description": {
     "short": "Local AI assistant powered by Ollama",
-    "full": "MyAi is a secure, locally-running AI agent that accesses your files, searches the web, and answers questions without sending your data to the cloud."
+    "full": "MyAi is a secure, locally-running AI agent that accesses your files, searches the web, and answers questions without sending your data to the cloud. Can join meetings and suggest responses in real-time."
   },
   "icons": {
     "color": "color.png",
@@ -35,6 +35,10 @@
       "supportsFiles": false,
       "isNotificationOnly": false
     }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
   ],
   "validDomains": []
 }

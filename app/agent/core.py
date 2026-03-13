@@ -105,6 +105,8 @@ class IntentRouter:
         triggers = [
             "search for", "search the web", "look up", "google",
             "what's the latest", "find online", "search online",
+            "who won", "latest news", "what is the current",
+            "what was the gap", "recent race", "latest version",
         ]
         return any(tr in t for tr in triggers) and not cls._wants_search_files(t)
 
@@ -214,7 +216,7 @@ class IntentRouter:
                 query = text.split(phrase, 1)[1].strip().rstrip("?. ")
                 if query:
                     return query
-        return None
+        return text.strip()
 
 
 class AgentCore:

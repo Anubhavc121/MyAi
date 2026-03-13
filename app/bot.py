@@ -91,6 +91,9 @@ class MyAiBot(ActivityHandler):
                 "- `/model <name>` -- Switch Ollama model\n"
                 "- `/status` -- Show current config and health\n"
                 "- `/profile <info>` -- Set your profile (name, role, bio)\n"
+                "- `/context add <name> <content>` -- Add project/topic knowledge\n"
+                "- `/context list` -- Show stored contexts\n"
+                "- `/context remove <name>` -- Remove a context\n"
                 "- `/allow <path>` -- Grant file access to a directory\n"
                 "- `/revoke` -- Revoke all file permissions\n"
                 "- `/search on|off` -- Toggle web search\n"
@@ -220,6 +223,50 @@ class MyAiBot(ActivityHandler):
                 f"**Bio:** {profile.get('bio', '')}\n\n"
                 "This info will be used when suggesting responses in meetings."
             )
+
+        elif command == "/context":
+            if not self.database:
+                return "Database not configured."
+            if not arg:
+                return (
+                    "Usage:\n"
+                    "- `/context add <name> <content>` -- Add knowledge\n"
+                    "- `/context list` -- Show all stored contexts\n"
+                    "- `/context remove <name>` -- Remove a context"
+                )
+
+            sub_parts = arg.split(maxsplit=1)
+            sub_cmd = sub_parts[0].lower()
+            sub_arg = sub_parts[1].strip() if len(sub_parts) > 1 else ""
+
+            if sub_cmd == "list":
+                contexts = await self.database.get_all_contexts(user_id)
+                if not contexts:
+                    return "No contexts stored. Add one with `/context add <name> <content>`"
+                lines = ["**Stored Contexts:**\n"]
+                for ctx in contexts:
+                    preview = ctx["content"][:100].replace("\n", " ")
+                    lines.append(f"- **{ctx['name']}**: {preview}...")
+                return "\n".join(lines)
+
+            elif sub_cmd == "add":
+                name_and_content = sub_arg.split(maxsplit=1)
+                if len(name_and_content) < 2:
+                    return "Usage: `/context add <name> <content>`\nExample: `/context add myproject We are building a Teams bot...`"
+                name = name_and_content[0]
+                content = name_and_content[1]
+                await self.database.add_context(user_id, name, content)
+                return f"Context **{name}** saved ({len(content)} chars). This will be used in meeting suggestions."
+
+            elif sub_cmd == "remove":
+                if not sub_arg:
+                    return "Usage: `/context remove <name>`"
+                removed = await self.database.remove_context(user_id, sub_arg)
+                if removed:
+                    return f"Context **{sub_arg}** removed."
+                return f"No context named **{sub_arg}** found."
+
+            return "Unknown subcommand. Use `add`, `list`, or `remove`."
 
         elif command == "/join":
             if not self.graph_client:

@@ -301,10 +301,18 @@ class MeetingTranscriptService:
                 if profile.get("bio"):
                     parts.append(f"About the user: {profile['bio']}")
 
+            # Load user's stored knowledge/context
+            contexts = await self.database.get_all_contexts(session.user_id)
+            if contexts:
+                parts.append("\n## User's Knowledge Base")
+                for ctx in contexts:
+                    parts.append(f"\n### {ctx['name']}")
+                    parts.append(ctx['content'])
+
             # Load recent meeting history for context
             recent = await self.database.get_recent_meetings(session.user_id, limit=3)
             if recent:
-                parts.append("Recent meetings this user attended:")
+                parts.append("\n## Recent meetings this user attended")
                 for m in recent:
                     line = f"- {m['meeting_subject'] or 'Untitled'}"
                     if m.get("key_points"):

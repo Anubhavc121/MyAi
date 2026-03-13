@@ -69,6 +69,16 @@ class Database:
                 )
             """)
             await db.execute("""
+                CREATE TABLE IF NOT EXISTS user_contexts (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    UNIQUE(user_id, name)
+                )
+            """)
+            await db.execute("""
                 CREATE INDEX IF NOT EXISTS idx_meeting_history_user
                 ON meeting_history(user_id)
             """)
@@ -204,6 +214,38 @@ class Database:
             return [{"meeting_subject": r["meeting_subject"], "summary": r["summary"],
                      "key_points": r["key_points"], "ended_at": r["ended_at"]}
                     for r in rows]
+
+    # ── User Contexts (knowledge for meeting suggestions) ──
+
+    async def add_context(self, user_id: str, name: str, content: str):
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute("""
+                INSERT INTO user_contexts (user_id, name, content, created_at)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(user_id, name) DO UPDATE SET
+                    content = ?, created_at = ?
+            """, (user_id, name, content, datetime.utcnow().isoformat(),
+                  content, datetime.utcnow().isoformat()))
+            await db.commit()
+
+    async def remove_context(self, user_id: str, name: str) -> bool:
+        async with aiosqlite.connect(self.db_path) as db:
+            cursor = await db.execute(
+                "DELETE FROM user_contexts WHERE user_id = ? AND name = ?",
+                (user_id, name)
+            )
+            await db.commit()
+            return cursor.rowcount > 0
+
+    async def get_all_contexts(self, user_id: str) -> list[dict]:
+        async with aiosqlite.connect(self.db_path) as db:
+            db.row_factory = aiosqlite.Row
+            cursor = await db.execute(
+                "SELECT name, content FROM user_contexts WHERE user_id = ? ORDER BY name",
+                (user_id,)
+            )
+            rows = await cursor.fetchall()
+            return [{"name": r["name"], "content": r["content"]} for r in rows]
 
     async def save_permission(self, user_id: str, directory: str):
         async with aiosqlite.connect(self.db_path) as db:
